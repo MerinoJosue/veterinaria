@@ -4,34 +4,48 @@
  */
 package Modelo;
 
+import java.io.InputStream;
+
 /**
  *
  * @author USER
  */
 public class Mascota {
 
-    String IDUSUARIO;
+    int IDMASCOTA;
+    int IDUSUARIO;
     String Nombre;
     String Raza;
     String Especie;
     String Sexo;
+    InputStream foto;
 
     public Mascota() {
     }
 
-    public Mascota(String IDUSUARIO, String Nombre, String Raza, String Especie, String Sexo) {
+    public Mascota(int IDMASCOTA, int IDUSUARIO, String Nombre, String Raza, String Especie, String Sexo, InputStream foto) {
+        this.IDMASCOTA = IDMASCOTA;
         this.IDUSUARIO = IDUSUARIO;
         this.Nombre = Nombre;
         this.Raza = Raza;
         this.Especie = Especie;
         this.Sexo = Sexo;
+        this.foto = foto;
     }
 
-    public String getIDUSUARIO() {
+    public int getIDMASCOTA() {
+        return IDMASCOTA;
+    }
+
+    public void setIDMASCOTA(int IDMASCOTA) {
+        this.IDMASCOTA = IDMASCOTA;
+    }
+
+    public int getIDUSUARIO() {
         return IDUSUARIO;
     }
 
-    public void setIDUSUARIO(String IDUSUARIO) {
+    public void setIDUSUARIO(int IDUSUARIO) {
         this.IDUSUARIO = IDUSUARIO;
     }
 
@@ -67,6 +81,16 @@ public class Mascota {
         this.Sexo = Sexo;
     }
 
+    public InputStream getFoto() {
+        return foto;
+    }
+
+    public void setFoto(InputStream foto) {
+        this.foto = foto;
+    }
+
+    
+    
     
 
 }
