@@ -204,6 +204,7 @@
                                         <label for="formatoExportacion">Formato de Exportación:</label>
                                         <select id="formatoExportacion" name="formatoExportacion">
                                             <option value="pdf">PDF</option>
+                                            <option value="excel">excel</option>
                                             <!-- Agrega más opciones según sea necesario -->
                                         </select>
 

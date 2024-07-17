@@ -167,7 +167,7 @@
                                                         <th>Monto</th>                                                   
                                                         <th>Codigo de Pago</th>                                                   
                                                         <th>Estado</th>                                                   
-                                                        <th>Acción</th>                                                   
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -177,14 +177,33 @@
                                                             <td>${p.getFecha()}</td>
                                                             <td>${p.getMonto()}</td>                                                                                                       
                                                             <td>P00${p.getIdPago()}</td>                                                                                                       
-                                                            <td>${p.getEstado()}</td>                                                                                                       
-                                                            <td>
-                                                                <a href="Controlador?accion=verDetalle&idcompra=${p.getId()}" class="btn btn-primary btn-sm">Ver Detalle</a>
-                                                            </td>                                                                                                       
+                                                            <td>${p.getEstado()}</td>                                                                                                                                                                                                           
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>
                                             </table> 
+                                            <h1>Exportar Base de Datos</h1>
+                                            <form action="Boleta.jsp" method="post">
+                                                <!-- Selección de formato de exportación -->
+                                                <label for="formatoExportacion">Formato de Exportación:</label>
+                                                <select id="formatoExportacion" name="formatoExportacion">
+                                                    <option value="pdf">PDF</option>
+                                                    <option value="excel">excel</option>
+                                                    <!-- Agrega más opciones según sea necesario -->
+                                                </select>
+                                                <input type="submit" value="Exportar Base de Datos">
+                                            </form>
+                                            <h1>Exportar Base de Datos</h1>
+                                            <form action="Factura.jsp" method="post">
+                                                <!-- Selección de formato de exportación -->
+                                                <label for="formatoExportacion">Formato de Exportación:</label>
+                                                <select id="formatoExportacion" name="formatoExportacion">
+                                                    <option value="pdf">PDF</option>
+                                                    <option value="excel">excel</option>
+                                                    <!-- Agrega más opciones según sea necesario -->
+                                                </select>
+                                                <input type="submit" value="Exportar Base de Datos">
+                                            </form>
                                         </div>
                                     </div>          
                                 </div> 

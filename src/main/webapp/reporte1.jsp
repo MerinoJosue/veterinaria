@@ -28,7 +28,7 @@
     }
 
     // Ruta al archivo .jasper
-    String reportPath = request.getServletContext().getRealPath("/reportes/veteri.jasper");
+    String reportPath = request.getServletContext().getRealPath("/reportes/Coffee_Reporte.jasper");
 
     // Parámetros del informe (agrega parámetros según sea necesario)
     Map<String, Object> parameters = new HashMap<>();

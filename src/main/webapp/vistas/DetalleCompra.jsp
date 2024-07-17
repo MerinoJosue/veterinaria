@@ -166,7 +166,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                 
+                                  <c:forEach var="p" items="${myDetalle}">
+                                <tr class="text-center">
+                                    <td>C00${p.getIdcompra()}</td> 
+                                    <td>                                        
+                                        <label><i>${p.producto.nombres}</i></label><br>                                      
+                                        <img src="ControladorImg?id=${p.producto.Id_Producto}" width="80" height="60">
+                                    </td>                                                                
+                                    <td>${p.getCantidad()}</td>
+                                    <td>${p.getPrecioCompra()}</td>                                                                                                      
+
+                                </tr>
+                            </c:forEach>
 
                                 </tbody>
                             </table> 
