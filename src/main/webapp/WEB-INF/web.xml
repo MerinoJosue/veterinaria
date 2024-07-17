@@ -16,6 +16,10 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>Controlador.RegisterServlet</servlet-class>
     </servlet>
+     <servlet>
+        <servlet-name>Controlador</servlet-name>
+        <servlet-class>Controlador.Controlador</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>ControladorImg</servlet-name>
         <servlet-class>Controlador.ControladorImg</servlet-class>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Controlador</servlet-name>
+        <url-pattern>/Controlador</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControladorImg</servlet-name>
