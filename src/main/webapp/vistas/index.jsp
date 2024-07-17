@@ -1,40 +1,31 @@
+<%@page import="java.util.Arrays"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     if (session.getAttribute("usuario") != null) {
 %>
-<html>
+<html> 
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Sistema Happypet| Inicio</title>
-        <!-- Tell the browser to be responsive to screen width -->
+        <title>Sistema Bodega | Registrar Cita</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <!-- Font Awesome -->
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
-        <!-- Ionicons -->
         <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
-        <!-- Theme style -->
         <link href="dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
-
-        <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-              page. However, you can choose any other skin. Make sure you
-              apply the skin class to the body tag so the changes take effect. -->
         <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
-        <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     </head>
 
-<body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
-        <div class="wrapper" style="height: auto; min-height: 100%;">
-            <!-- Main Header -->
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
             <header class="main-header">
                 <a href="#" class="logo">
-                    <span class="logo-mini"><b>SH</b>PP</span>
-                    <span class="logo-lg"><b>Sistema </b>HappyPet</span>
+                    <span class="logo-mini"><b>S</b>BL</span>
+                    <span class="logo-lg"><b>Sistema </b>Bodega</span>
                 </a>
-
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                         <span class="sr-only">Toggle navigation</span>
@@ -43,15 +34,14 @@
                         <ul class="nav navbar-nav">
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="dist/img/credit/user.png" class="user-image" alt="User Image">
-                                    <span class="hidden-xs"> ${usuario.nombreUsuario}</span>
+                                    <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">${vendedor.nombreUsuario}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="dist/img/credit/user.png" class="img-circle" alt="User Image">
-                                        <p>                    
-                                            Bienvenido - ${usuario.nombreUsuario}
-                                            <small>Usted es ${usuario.cargo.nombreCargo} </small>
+                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                        <p>Bienvenido - ${usuario.nombreUsuario}<br>
+                                            <small>Usted es, ${usuario.cargo.nombreCargo}</small>
                                         </p>
                                     </li>
                                     <li class="user-footer">
@@ -65,19 +55,17 @@
                     </div>
                 </nav>
             </header>
-
             <aside class="main-sidebar">
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="dist/img/credit/user.png" class="img-circle" alt="User Image">
+                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Bienvenido, ${usuario.nombreUsuario} </p>
+                            <p>Bienvenido, ${usuario.nombreUsuario}</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
-
                     <form action="#" method="get" class="sidebar-form">
                         <div class="input-group">
                             <input type="text" name="q" class="form-control" placeholder="Search...">
@@ -87,7 +75,7 @@
                             </span>
                         </div>
                     </form>
-
+                    <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">INICIO</li>
                         <li class="active"><a href="ControladorVeterinario?menu=Veterinario&accion=Listar"><i class="fa fa-link"></i> <span>Veterinarios</span></a></li>
@@ -99,6 +87,7 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="#"><i class="fa fa-archive"></i>Clientes</a></li>
+                                <li><a href="svrCitas?menu=RegistrarCitas&accion=Listar"><i class="fa fa-calendar-check-o"></i> <span>Citas</span></a></li>  
                                 <li><a href="#"><i class="fa fa-tags"></i>Proveedores</a></li>
                                 <li><a href="ControladorProductos?menu=Productos&accion=Listar"><i class="fa fa-cube"></i>Productos</a></li>
                                 <li><a href="ControladorServicios?menu=Servicios&accion=Listar"><i class="fa fa-users"></i>Servicios</a></li>
@@ -128,93 +117,44 @@
                     </ul>
                     <!-- /.sidebar-menu -->
                 </section>
-                <!-- /.sidebar -->
             </aside>
 
-            <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>
-                        Pagina Principal
-                        <small>Veterinaria</small>
-                    </h1>
+                    <h1>Dashboard</h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-                        <li class="active">Panel Administrativo</li>
+                        <li class="active">Dashboard</li>
                     </ol>
                 </section>
 
                 <section class="content">
-                    <!-- Small boxes (Stat box) -->
                     <div class="row">
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-aqua">
-                                <div class="inner">
-                                    <h3>150</h3>
-
-                                    <p>Nuevos Clientes</p>
+                        <div class="col-lg-6 col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <h4><i class="fa fa-user"></i> Cantidades de productos vendidas</h4>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-bag"></i>
+                                <div class="card-body d-flex justify-content-center">
+                                    <div id="chart1"></div>
                                 </div>
-                                <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-green">
-                                <div class="inner">
-                                    <h3>7<sup style="font-size: 20px">%</sup></h3>
 
-                                    <p>Rating de compras</p>
+                        <div class="col-lg-6 col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <h4><i class="fa fa-list"></i> Citas atendidas por veterinario</h4>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
+                                <div class="card-body d-flex justify-content-center">
+                                    <div id="chart2"></div>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-yellow">
-                                <div class="inner">
-                                    <h3>2</h3>
-
-                                    <p>Usuarios registrados</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-person-add"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-red">
-                                <div class="inner">
-                                    <h3>65</h3>
-
-                                    <p>Unique Visitors</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
                     </div>
                 </section>
-                <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
+            </div>            
 
-            <!-- Main Footer -->
              <footer class="main-footer">
                 <!-- To the right -->
                 <div class="pull-right hidden-xs">
@@ -223,27 +163,97 @@
                 <!-- Default to the left -->
                 <strong>HappyPet<a href="#"></a>.</strong> Todos los derechos reservados.
             </footer>
-
             <div class="control-sidebar-bg"></div>
         </div>
-        <!-- ./wrapper -->
 
-        <!-- REQUIRED JS SCRIPTS -->
-
-        <!-- jQuery 3 -->
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
-        <!-- Bootstrap 3.3.7 -->
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- AdminLTE App -->
         <script src="dist/js/adminlte.min.js"></script>
 
-        <!-- Optionally, you can add Slimscroll and FastClick plugins.
-             Both of these plugins are recommended to enhance the
-             user experience. -->
+        <script>  
+            
+            document.addEventListener("DOMContentLoaded", function() {
+                var prodCantidad = <%= Arrays.toString((int[]) request.getAttribute("productosCantidades")) %>;                
+                var prodLabel = <%= Arrays.toString((String[]) request.getAttribute("productosLabel")) %>;
+                
+                var vetLabel = <%= Arrays.toString((String[]) request.getAttribute("vetLabel")) %>;                               
+                var vetCantConsult = <%= Arrays.toString((int[]) request.getAttribute("vetCantConsult")) %>;
+
+                var options1 = {
+                    series: [{
+                    data: prodCantidad
+                  }],
+                    chart: {
+                    type: 'bar',
+                    height: 350
+                  },
+                  plotOptions: {
+                    bar: {
+                      borderRadius: 4,
+                      borderRadiusApplication: 'end',
+                      horizontal: false
+                    }
+                  },
+                  dataLabels: {
+                    enabled: false
+                  },
+                  xaxis: {
+                    categories: prodLabel
+                  }
+                  };
+
+
+                var options2 = {
+                    series: vetCantConsult,
+                    chart: {
+                    width: 380,
+                    type: 'polarArea'
+                  },
+                  labels: vetLabel,
+                  fill: {
+                    opacity: 1
+                  },
+                  stroke: {
+                    width: 1,
+                    colors: undefined
+                  },
+                  yaxis: {
+                    show: false
+                  },
+                  legend: {
+                    position: 'bottom'
+                  },
+                  plotOptions: {
+                    polarArea: {
+                      rings: {
+                        strokeWidth: 0
+                      },
+                      spokes: {
+                        strokeWidth: 0
+                      },
+                    }
+                  },
+                  theme: {
+                    monochrome: {
+                      enabled: true,
+                      shadeTo: 'light',
+                      shadeIntensity: 0.6
+                    }
+                  }
+                  };
+
+                var chart = new ApexCharts(document.querySelector("#chart1"), options1);
+                chart.render();
+
+                var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+                chart2.render();
+            });
+            
+        </script>
     </body>
 </html>
 <%
     } else {
-        response.sendRedirect("identificar.jsp");
+        response.sendRedirect("../identificar.jsp");
     }
 %>

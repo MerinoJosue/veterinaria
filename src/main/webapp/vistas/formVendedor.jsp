@@ -1,14 +1,8 @@
-<%@page import="config.Fecha"%>
-<%@page import="java.text.DateFormat"%>
-<%@page import="java.util.Locale"%>
-<%@page import="java.util.GregorianCalendar"%>
-<%@page import="java.util.Calendar"%>
-<%@page import="java.util.Date"%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-
+<%
+    if (session.getAttribute("vendedor") != null) {
+%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -115,15 +109,22 @@
                     <!-- /.search form -->
 
                     <!-- Sidebar Menu -->
-                     <ul class="sidebar-menu" data-widget="tree">
+                    <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">INICIO</li>
                         <!-- Optionally, you can add icons to the links -->
-                        <li class="active"><a href="Controlador?accion=home"><i class="fa fa-cart-arrow-down"></i> <span>Catalogo</span></a></li>
-                        <li class="active"><a href="Controlador?accion=MisCompras"><i class="fa fa-cart-arrow-down"></i> <span>Mis compras</span></a></li>
-                        <li class="active"><a href="srvMascota?menu=RegistrarMascota&accion=Listar"><i class="fa fa-tags"></i> <span> Mis Mascotas</span></a></li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Controlador?accion=carrito"><i class="fas fa-cart-plus">(<label style="color: darkorange">${cont}</label>)</i> Carrito</a>
-                        </li> 
+                        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Productos</span></a></li>
+                        <li><a href="svrCitas?menu=RegistrarCitas&accion=Listar"><i class="fa fa-calendar-check-o"></i> <span>Citas</span></a></li>                      
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-cart-arrow-down"></i> <span>Ventas</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="#"><i class="fa fa-cart-arrow-down"></i>Nueva Venta</a></li>
+                                <li><a href="srvMascota?menu=RegistrarMascota&accion=Listar"><i class="fa fa-tags"></i>Mascotas</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <!-- /.sidebar-menu -->
                 </section>
@@ -143,73 +144,106 @@
                         <li class="active">Panel Administrativo</li>
                     </ol>
                 </section>
-                <br>
-                <div class="container-fluid mt-4">
-                    <div class="row justify-content-center">
-                        <c:forEach var="pr" items="${productos}">
-                            <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                                <div class="card h-100 shadow-lg border-0">
-                                    <div class="card-header text-white text-center py-3" style="background-color: #4caf50;">
-                                        <h5 class="card-title mb-0 font-weight-bold">${pr.getNombres()}</h5>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        <div class="mb-3">
-                                            <span class="h4 text-success font-weight-bold"><i class="fas fa-dollar-sign"></i>${pr.getPrecio()}</span>
-                                        </div>
-                                        <img src="ControladorImg?id=${pr.getId_Producto()}" class="img-fluid rounded mb-3"style="height: 170px; object-fit: cover;">
-                                        <p class="text-muted">${pr.getDescripcion()}</p>
-                                    </div>
-                                    <div class="card-footer bg-light text-center">
-                                        <a href="Controlador?accion=AgregarCarrito&id=${pr.getId_Producto()}" class="btn btn-outline-primary btn-sm mr-2">
-                                            Agregar a Carrito <i class="fas fa-cart-plus"></i>
-                                        </a>
-                                        <a href="Controlador?accion=Comprar&id=${pr.getId_Producto()}" class="btn btn-danger btn-sm">
-                                            Comprar
-                                        </a>
-                                    </div>
+
+                <section class="content">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row">
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>150</h3>
+
+                                    <p>Nuevos Clientes</p>
                                 </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                        </c:forEach>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-green">
+                                <div class="inner">
+                                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                                    <p>Rating de compras</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-stats-bars"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-yellow">
+                                <div class="inner">
+                                    <h3>4</h3>
+
+                                    <p>Usuarios registrados</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-person-add"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-red">
+                                <div class="inner">
+                                    <h3>65</h3>
+
+                                    <p>Unique Visitors</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-pie-graph"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- ./col -->
                     </div>
-                </div>
-                <style>
-                    .card {
-                        transition: transform 0.2s ease-in-out;
-                    }
-                    .card:hover {
-                        transform: scale(1.05);
-                    }
-                    .bg-gradient-primary {
-                        background: linear-gradient(45deg, #007bff, #0056b3);
-                    }
-                </style>
-                <!-- /.content-wrapper -->  
-                <div class="control-sidebar-bg"></div>
+                </section>
+                <!-- /.content -->
             </div>
-               <!-- Main Footer -->
-                <footer class="main-footer">
-                    <!-- To the right -->
-                    <div class="pull-right hidden-xs">
-                        PetFrendly
-                    </div>
-                    <!-- Default to the left -->
-                    <strong>HappyPet<a href="#"></a>.</strong> Todos los derechos reservados.
-                </footer>
-            <!-- ./wrapper -->
+            <!-- /.content-wrapper -->
 
-            <!-- REQUIRED JS SCRIPTS -->
+            <!-- Main Footer -->
+             <footer class="main-footer">
+                <!-- To the right -->
+                <div class="pull-right hidden-xs">
+                    PetFrendly
+                </div>
+                <!-- Default to the left -->
+                <strong>HappyPet<a href="#"></a>.</strong> Todos los derechos reservados.
+            </footer>
 
-            <!-- jQuery 3 -->
-            <script src="bower_components/jquery/dist/jquery.min.js"></script>
-            <!-- Bootstrap 3.3.7 -->
-            <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-            <!-- AdminLTE App -->
-            <script src="dist/js/adminlte.min.js"></script>
+            <div class="control-sidebar-bg"></div>
+        </div>
+        <!-- ./wrapper -->
 
+        <!-- REQUIRED JS SCRIPTS -->
 
+        <!-- jQuery 3 -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap 3.3.7 -->
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.min.js"></script>
 
-            <!-- Optionally, you can add Slimscroll and FastClick plugins.
-                 Both of these plugins are recommended to enhance the
-                 user experience. -->
+        <!-- Optionally, you can add Slimscroll and FastClick plugins.
+             Both of these plugins are recommended to enhance the
+             user experience. -->
     </body>
 </html>
+<%        
+    } else {
+        response.sendRedirect("identificar.jsp");
+    }
+%>
