@@ -20,10 +20,6 @@
         <servlet-name>ControladorImg</servlet-name>
         <servlet-class>Controlador.ControladorImg</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>Controlador</servlet-name>
-        <servlet-class>Controlador.Controlador</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>ControladorProductos</servlet-name>
         <url-pattern>/ControladorProductos</url-pattern>
@@ -43,10 +39,6 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controlador</servlet-name>
-        <url-pattern>/Controlador</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControladorImg</servlet-name>
