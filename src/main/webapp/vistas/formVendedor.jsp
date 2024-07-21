@@ -15,7 +15,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Sistema Happypet | Inicio</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+        
         <!-- CSS dependencies -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -23,6 +23,46 @@
         <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
         <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <style>
+            .hero-image {
+                background: url('dist/img/veterinary-banner.jpg') no-repeat center center;
+                background-size: cover;
+                height: 400px;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                text-align: center;
+            }
+            .hero-text {
+                background: rgba(0, 0, 0, 0.5);
+                padding: 20px;
+                border-radius: 10px;
+            }
+            .navbar-custom-menu ul.navbar-nav {
+                background-color: #4caf50;
+            }
+            .navbar-custom-menu ul.navbar-nav > li > a {
+                color: white;
+            }
+            .sidebar-menu .nav-item a {
+                color: #4caf50;
+            }
+            .box-header {
+                background-color: #4caf50;
+                color: white;
+            }
+            .card {
+                border: 1px solid #4caf50;
+            }
+            .card-header {
+                background-color: #4caf50;
+            }
+            .card-footer {
+                background-color: #f9f9f9;
+            }
+        </style>
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
@@ -88,56 +128,25 @@
 
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">INICIO</li>
-                        <li class="active"><a href="Controlador?accion=home"><i class="fa fa-cart-arrow-down"></i> <span>Catálogo</span></a></li>
-                        <li class="active"><a href="Controlador?accion=MisCompras"><i class="fa fa-cart-arrow-down"></i> <span>Mis Compras</span></a></li>
-                        <li class="active"><a href="srvMascota?menu=RegistrarMascota&accion=Listar"><i class="fa fa-tags"></i> <span>Mis Mascotas</span></a></li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Controlador?accion=carrito"><i class="fas fa-cart-plus">(<label style="color: darkorange">${cont}</label>)</i> Carrito</a>
-                        </li>
+                        <li class="active"><a href="Controlador?accion=home"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
+                        <li><a href="Controlador?accion=MisCompras"><i class="fa fa-shopping-cart"></i> <span>Mis Compras</span></a></li>
+                        <li><a href="srvMascota?menu=RegistrarMascota&accion=Listar"><i class="fa fa-paw"></i> <span>Mis Mascotas</span></a></li>
+                        <li><a href="Controlador?accion=carrito"><i class="fa fa-cart-plus">(<label style="color: darkorange">${cont}</label>)</i> Carrito</a></li>
                     </ul>
                 </section>
             </aside>
 
             <!-- Content Wrapper -->
             <div class="content-wrapper">
-                <section class="content">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Bienvenidos a Nuestra Veterinaria</h3>
-                        </div>
-                        <div class="box-body">
-                            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                                <!-- Indicators -->
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                                </ol>
-                                <!-- Slides -->
-                                <div class="carousel-inner">
-                                    <div class="item active">
-                                        <img src="../reportes/pexels-helen1-16395147.jpg" alt="First slide">
-                                    </div>
-                                    <div class="item">
-                                        <img src="../reportes/pexels-ingewallu-126407.jpg" alt="Second slide">
-                                    </div>
-                                    <div class="item">
-                                        <img src="../reportes/pexels-pixabay-160846.jpg" alt="Third slide">
-                                    </div>
-                                </div>
-                                <!-- Controls -->
-                                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
+                <!-- Hero Section -->
+                <div class="hero-image">
+                    <div class="hero-text">
+                        <h1>Bienvenidos a Nuestra Veterinaria</h1>
+                        <p>Cuidamos de tus mascotas con amor y profesionalismo</p>
                     </div>
+                </div>
 
+                <section class="content">
                     <!-- About Us Section -->
                     <div class="box">
                         <div class="box-header with-border">
@@ -174,7 +183,7 @@
                             <c:forEach var="pr" items="${productos}">
                                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
                                     <div class="card h-100 shadow-lg border-0">
-                                        <div class="card-header text-white text-center py-3" style="background-color: #4caf50;">
+                                        <div class="card-header text-white text-center py-3">
                                             <h5 class="card-title mb-0 font-weight-bold">${pr.getNombres()}</h5>
                                         </div>
                                         <div class="card-body text-center">
@@ -196,6 +205,26 @@
                         </div>
                     </div>
                 </section>
+                <script>
+                    window.addEventListener('mouseover', initLandbot, {once: true});
+                    window.addEventListener('touchstart', initLandbot, {once: true});
+                    var myLandbot;
+                    function initLandbot() {
+                        if (!myLandbot) {
+                            var s = document.createElement('script');
+                            s.type = 'text/javascript';
+                            s.async = true;
+                            s.addEventListener('load', function () {
+                                var myLandbot = new Landbot.Livechat({
+                                    configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-2560099-7S2PZU0T80D5OGBE/index.json',
+                                });
+                            });
+                            s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.js';
+                            var x = document.getElementsByTagName('script')[0];
+                            x.parentNode.insertBefore(s, x);
+                          }
+                    }
+                </script>
             </div>
 
             <!-- Footer -->
