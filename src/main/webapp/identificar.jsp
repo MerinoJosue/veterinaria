@@ -18,25 +18,48 @@
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
-
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style>
+    .login-page, .register-page {
+      background: #d2d6de;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      width: 360px;
+      margin: 0 auto;
+    }
+    .login-logo a {
+      color: #444;
+    }
+    .login-box-body {
+      padding: 20px;
+      border-top: 0;
+      color: #666;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+    }
+    .form-control {
+      background-color: #f9f9f9;
+    }
+  </style>
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
     <a href="#"><b>Sistema Happypet </b>Veterinaria</a>
   </div>
-  <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Iniciar Sesion</p>
-
     <form action="srvUsuario?accion=verificar" method="POST">
       <div class="form-group has-feedback">
-          <input type="text" name="txtUsu" id="txtUsu" value="" class="form-control"  placeholder="Usuario">
+        <input type="text" name="txtUsu" id="txtUsu" value="" class="form-control" placeholder="Usuario">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-          <input type="password" name="txtPass" id="txtPass" value="" class="form-control" placeholder="******">
+        <input type="password" name="txtPass" id="txtPass" value="" class="form-control" placeholder="******">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
@@ -47,36 +70,22 @@
             </label>
           </div>
         </div>
-        <!-- /.col -->
         <div class="col-xs-4">
           <input type="submit" name="verificar" value="Verificar" class="btn btn-primary btn-block"/>
         </div>
-        <!-- /.col -->
       </div>
     </form>
-
     <div class="social-auth-links text-center">
       <p>- Verificación Credenciales -</p>
-      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-info"></i> Mensaje: 
-        ${msje}</a>
+      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-info"></i> Mensaje: ${msje}</a>
     </div>
-    <!-- /.social-auth-links -->
-
     <a href="#">Olvide mi contraseña</a><br>
-    <a href="Registrarse.jsp" class="text-center">Registrar un nuevo usuario</a>
-    <br>
-    <a href="ControladorInvi?accion=invitado" >Ingresar como invitado</a>
-
+    <a href="Registrarse.jsp" class="text-center">Registrar un nuevo usuario</a><br>
+    <a href="ControladorInvi?accion=invitado">Ingresar como invitado</a>
   </div>
-  <!-- /.login-box-body -->
 </div>
-<!-- /.login-box -->
-
-<!-- jQuery 3 -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- iCheck -->
 <script src="plugins/iCheck/icheck.min.js"></script>
 <script>
   $(function () {
@@ -89,4 +98,3 @@
 </script>
 </body>
 </html>
-
