@@ -1,33 +1,85 @@
+<%@page import="config.Fecha"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Locale"%>
+<%@page import="java.util.GregorianCalendar"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    if (session.getAttribute("vendedor") != null) {
-%>
-<html>
+
+<!DOCTYPE html>
+<html lang="es">
     <head>
-        <meta charset="utf-8">
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Sistema Bodega | Registrar Mascota</title>
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <title>Sistema Happypet | Inicio</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <!-- CSS dependencies -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
-        <link href="dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
         <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <style>
+            .hero-image {
+                background: url('dist/img/veterinary-banner.jpg') no-repeat center center;
+                background-size: cover;
+                height: 400px;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                text-align: center;
+            }
+            .hero-text {
+                background: rgba(0, 0, 0, 0.5);
+                padding: 20px;
+                border-radius: 10px;
+            }
+            .navbar-custom-menu ul.navbar-nav {
+                background-color: #4caf50;
+            }
+            .navbar-custom-menu ul.navbar-nav > li > a {
+                color: white;
+            }
+            .sidebar-menu .nav-item a {
+                color: #4caf50;
+            }
+            .box-header {
+                background-color: #4caf50;
+                color: white;
+            }
+            .card {
+                border: 1px solid #4caf50;
+            }
+            .card-header {
+                background-color: #4caf50;
+            }
+            .card-footer {
+                background-color: #f9f9f9;
+            }
+        </style>
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
+            <!-- Main Header -->
             <header class="main-header">
                 <a href="#" class="logo">
-                    <span class="logo-mini"><b>S</b>BL</span>
-                    <span class="logo-lg"><b>Sistema </b>Bodega</span>
+                    <span class="logo-mini"><b>SH</b>PP</span>
+                    <span class="logo-lg"><b>Sistema</b> Veterinaria</span>
                 </a>
-                <nav class="navbar navbar-static-top" role="navigation">
+
+                <!-- Navbar -->
+                <nav class="navbar navbar-static-top">
                     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                         <span class="sr-only">Toggle navigation</span>
                     </a>
+
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
                             <li class="dropdown user user-menu">
@@ -38,9 +90,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
                                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                                        <p>Bienvenido - ${vendedor.nombreUsuario}<br>
-                                            <small>Usted es, ${vendedor.cargo.nombreCargo}</small>
-                                        </p>
+                                        <p>Bienvenido - ${vendedor.nombreUsuario}<small>Usted es Cliente</small></p>
                                     </li>
                                     <li class="user-footer">
                                         <div class="pull-right">
@@ -53,6 +103,8 @@
                     </div>
                 </nav>
             </header>
+
+            <!-- Sidebar -->
             <aside class="main-sidebar">
                 <section class="sidebar">
                     <div class="user-panel">
@@ -64,142 +116,130 @@
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
+
                     <form action="#" method="get" class="sidebar-form">
                         <div class="input-group">
                             <input type="text" name="q" class="form-control" placeholder="Search...">
                             <span class="input-group-btn">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                                </button>
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </form>
-                     <ul class="sidebar-menu" data-widget="tree">
+
+                    <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">INICIO</li>
-                        <!-- Optionally, you can add icons to the links -->
-                        <li class="active"><a href="Controlador?accion=home"><i class="fa fa-cart-arrow-down"></i> <span>Catalogo</span></a></li>
-                        <li class="active"><a href="Controlador?accion=MisCompras"><i class="fa fa-cart-arrow-down"></i> <span>Mis compras</span></a></li>
-                        <li class="active"><a href="srvMascota?menu=RegistrarMascota&accion=Listar"><i class="fa fa-tags"></i> <span> Mis Mascotas</span></a></li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Controlador?accion=carrito"><i class="fas fa-cart-plus">(<label style="color: darkorange">${cont}</label>)</i> Carrito</a>
-                        </li> 
+                        <li class="active"><a href="Controlador?accion=home"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
+                        <li><a href="Controlador?accion=MisCompras"><i class="fa fa-shopping-cart"></i> <span>Mis Compras</span></a></li>
+                        <li><a href="srvMascota?menu=RegistrarMascota&accion=Listar"><i class="fa fa-paw"></i> <span>Mis Mascotas</span></a></li>
+                        <li><a href="Controlador?accion=carrito"><i class="fa fa-cart-plus">(<label style="color: darkorange">${cont}</label>)</i> Carrito</a></li>
                     </ul>
                 </section>
             </aside>
 
+            <!-- Content Wrapper -->
             <div class="content-wrapper">
-                <section class="content-header">
-                    <h1>Registrar Mascota</h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-                        <li class="active">Registrar Mascota</li>
-                    </ol>
-                </section>
+                <!-- Hero Section -->
+                <div class="hero-image">
+                    <div class="hero-text">
+                        <h1>Bienvenidos a Nuestra Veterinaria</h1>
+                        <p>Cuidamos de tus mascotas con amor y profesionalismo</p>
+                    </div>
+                </div>
 
                 <section class="content">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card">
-                                <div class="card-header text-center">
-                                    <h4><i class="fa fa-paw"></i> Registrar Mascota</h4>
-                                </div>
-                                <div class="card-body">
-                                    <form action="srvMascota" method="POST">
-                                        <input type="hidden" name="accion" value="agregar" />
-                                        <div class="form-group">
-                                            <label>Nombre</label>
-                                            <input type="text" name="nombre" class="form-control" required>
-                                        </div> 
-                                        <div class="form-group">
-                                            <label>Raza</label>
-                                            <input type="text" name="raza" class="form-control" required>
-                                        </div> 
-                                        <div class="form-group">
-                                            <label>Sexo</label>
-                                            <input type="text" name="sexo" class="form-control" required>
-                                        </div> 
-                                        <div class="form-group">
-                                            <label>Especie</label>
-                                            <input type="text" name="especie" class="form-control" required>
-                                        </div>
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Registrar</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                    <!-- About Us Section -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Sobre Nosotros</h3>
                         </div>
+                        <div class="box-body">
+                            <p>HappyPet es una veterinaria dedicada al cuidado de tu mascota, ofreciendo diferentes tipos de servicios como: “Higiene, asesorías, ventas de productos y control de su mascota”. La veterinaria abrió sus puertas a inicios del 2024 hasta hoy, con el mejor equipo médico, y los mayores descuentos a sus clientes.</p>
+                        </div>
+                    </div>
 
-                        <div class="col-lg-8 col-md-6 mb-4">
-                            <div class="card">
-                                <div class="card-header text-center">
-                                    <h4><i class="fa fa-list"></i> Lista de Mascotas</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-container">
-                                        <div class="mb-3">
-                                            <input type="text" id="searchInput" class="form-control" placeholder="Buscar mascota...">
+                    <!-- Mission Section -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Misión</h3>
+                        </div>
+                        <div class="box-body">
+                            <p>En veterinaria HappyPet se vela por el bienestar de sus mascotas, brindando un servicio con gran calidez humana y técnica a través de la prestación de servicios médicos veterinarios altamente especializados.</p>
+                        </div>
+                    </div>
+
+                    <!-- Vision Section -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Visión</h3>
+                        </div>
+                        <div class="box-body">
+                            <p>HappyPet busca ser una clínica veterinaria modelo, teniendo una capacitación constante a su personal, para brindar una atención enfocada en la satisfacción del cliente y el bienestar de su mascota, buscando ser líderes indiscutibles, en servicios médicos veterinarios, contando con instalaciones, equipos médicos altamente calificados.</p>
+                        </div>
+                    </div>
+
+                    <!-- Product Section -->
+                    <div class="container-fluid mt-4">
+                        <div class="row justify-content-center">
+                            <c:forEach var="pr" items="${productos}">
+                                <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
+                                    <div class="card h-100 shadow-lg border-0">
+                                        <div class="card-header text-white text-center py-3">
+                                            <h5 class="card-title mb-0 font-weight-bold">${pr.getNombres()}</h5>
                                         </div>
-                                        <table id="tablaMascotas" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nombre</th>
-                                                    <th>Raza</th>
-                                                    <th>Sexo</th>
-                                                    <th>Especie</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="mascota" items="${mascotas}">
-                                                    <tr>
-                                                        <td>${mascota.nombre}</td>
-                                                        <td>${mascota.raza}</td>
-                                                        <td>${mascota.sexo}</td>
-                                                        <td>${mascota.especie}</td>
-                                                        <td>
-                                                        <a class="btn btn-warning" href="srvMascota?accion=editarMascota&id=${mascota.getIDUSUARIO()}"><i class="fa fa-pencil"></i></a>
-                                                        <a class="btn btn-danger" href="srvMascota?accion=deleteMascota&id=${mascota.getIDUSUARIO()}"><i class="fa fa-trash"></i></a>
-                                                    </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </tbody>
-                                        </table>
-                                        <a class="btn btn-info" data-toggle="modal" data-target="#addMascotaModal"><i class="fa fa-paw"></i></a>
+                                        <div class="card-body text-center">
+                                            <div class="mb-3">
+                                                <span class="h4 text-success font-weight-bold"><i class="fas fa-dollar-sign"></i>${pr.getPrecio()}</span>
+                                            </div>
+                                            <img src="ControladorImg?id=${pr.getId_Producto()}" class="img-fluid rounded mb-3" style="height: 170px; object-fit: cover;">
+                                            <p class="text-muted">${pr.getDescripcion()}</p>
+                                        </div>
+                                        <div class="card-footer bg-light text-center">
+                                            <a href="Controlador?accion=AgregarCarrito&id=${pr.getId_Producto()}" class="btn btn-outline-primary btn-sm mr-2">
+                                                Agregar a Carrito <i class="fas fa-cart-plus"></i>
+                                            </a>
+                                            <a href="Controlador?accion=Comprar&id=${pr.getId_Producto()}" class="btn btn-danger btn-sm">Comprar</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </c:forEach>
                         </div>
                     </div>
                 </section>
+                <script>
+                    window.addEventListener('mouseover', initLandbot, {once: true});
+                    window.addEventListener('touchstart', initLandbot, {once: true});
+                    var myLandbot;
+                    function initLandbot() {
+                        if (!myLandbot) {
+                            var s = document.createElement('script');
+                            s.type = 'text/javascript';
+                            s.async = true;
+                            s.addEventListener('load', function () {
+                                var myLandbot = new Landbot.Livechat({
+                                    configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-2560099-7S2PZU0T80D5OGBE/index.json',
+                                });
+                            });
+                            s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.js';
+                            var x = document.getElementsByTagName('script')[0];
+                            x.parentNode.insertBefore(s, x);
+                          }
+                    }
+                </script>
             </div>
 
-             <footer class="main-footer">
-                <!-- To the right -->
-                <div class="pull-right hidden-xs">
-                    PetFrendly
-                </div>
-                <!-- Default to the left -->
-                <strong>HappyPet<a href="#"></a>.</strong> Todos los derechos reservados.
+            <!-- Footer -->
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">PetFriendly</div>
+                <strong>HappyPet</strong>. Todos los derechos reservados.
             </footer>
+
+            <!-- Background for control sidebar -->
             <div class="control-sidebar-bg"></div>
         </div>
 
+        <!-- JavaScript dependencies -->
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="dist/js/adminlte.min.js"></script>
-
-        <script>
-            $(document).ready(function() {
-                $('#tablaMascotas').DataTable();
-                $('#searchInput').on('keyup', function() {
-                    $('#tablaMascotas').DataTable().search($(this).val()).draw();
-                });
-            });
-        </script>
     </body>
 </html>
-<%
-    } else {
-        response.sendRedirect("identificar.jsp");
-    }
-%>
