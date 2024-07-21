@@ -18,10 +18,8 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
         <!-- Font Awesome -->
-
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <!-- Ionicons -->
-
         <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
         <!-- Theme style -->
         <link href="dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
@@ -146,10 +144,6 @@
                     </ol>
                 </section>
 
-
-
-
-
                 <section>
                     <div class="container mt-4">
                         <div class="d-flex">
@@ -213,7 +207,7 @@
                                     </div>
                                     <div class="card-footer">
                                         <br>
-                                        <a class="dropdown-item" href="Controlador?accion=RealizarPago">Realizar Pago</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#paymentModal">Realizar Pago</a>
                                         <!-- Mostrar mensaje si está presente -->
                                         <c:if test="${not empty mensaje}">
                                             <div class="alert alert-info">${mensaje}</div>
@@ -269,7 +263,6 @@
         <!-- REQUIRED JS SCRIPTS -->
 
         <!-- jQuery 3 -->
-
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap 3.3.7 -->
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -282,7 +275,51 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="js/funciones.js" type="text/javascript"></script>
 
+        <!-- Payment Method Modal -->
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Método de Pago</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="paymentForm">
+                            <div class="form-group">
+                                <label for="cardName">Nombre en la Tarjeta</label>
+                                <input type="text" class="form-control" id="cardName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardNumber">Número de Tarjeta</label>
+                                <input type="text" class="form-control" id="cardNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="expiryDate">Fecha de Vencimiento</label>
+                                <input type="text" class="form-control" id="expiryDate" placeholder="MM/AA" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" class="form-control" id="cvv" required>
+                            </div>
+                            <div class="form-group">
+                                        <label>Monto</label>
+                                        <input type="text" name="txtmonto" value="$.${totalPagar}0" class="form-control h1">
+                                    </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                         <a class="dropdown-item" href="Controlador?accion=RealizarPago" data-toggle="modal" >Pagar</a>
+                                        <!-- Mostrar mensaje si está presente -->
+                                        <c:if test="${not empty mensaje}">
+                                            <div class="alert alert-info">${mensaje}</div>
+                                        </c:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
     </body>
-
-
 </html>
