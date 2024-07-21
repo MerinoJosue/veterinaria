@@ -13,8 +13,22 @@ import Modelo.Pago;
 import Modelo.Productos;
 import Modelo.ProductosDAO;
 import Modelo.usuario;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import static java.lang.System.out;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +141,104 @@ public class Controlador extends HttpServlet {
                 MisCompras(request, response);
                 break;
             case "verDetalle":
-                VerDetalle(request, response);
+                totalPagar = 0.0;
+                int idcompras = Integer.parseInt(request.getParameter("idcompra"));
+                List<DetalleCompra> detalle = cdao.Detalle(idcompras);
+
+                // Configurar el documento PDF
+                Document document = new Document();
+                try {
+                    // Configurar el OutputStream para enviar el PDF como respuesta
+                    response.setContentType("application/pdf");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"detalle_compra_" + idcompras + ".pdf\"");
+                    OutputStream out = response.getOutputStream();
+
+                    // Crear el escritor para el documento PDF
+                    PdfWriter.getInstance(document, out);
+                    document.open();
+
+                    // Agregar encabezado
+                    // Agregar el logo
+                    try {
+                        String logoPath = getServletContext().getRealPath("../reportes/logohyp.jpg"); // Ajusta la ruta del logo
+                        Image logo = Image.getInstance(logoPath);
+                        logo.setAlignment(Element.ALIGN_CENTER);
+                        logo.scaleToFit(200, 100); // Ajusta el tamaño del logo según tus necesidades
+                        document.add(logo);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    // Agregar título
+                    document.add(new Paragraph("HappyPet", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 20, Font.BOLD)));
+
+                    // Agregar información adicional
+                    document.add(new Paragraph("RUC: 12345678901")); // Ajusta el RUC
+                    document.add(new Paragraph("Dirección: Mercado ASPROPA puesto 260, Av. Luna Pizarro de, San Martín de Porres 15103 ")); // Ajusta la dirección
+                    document.add(new Paragraph(" "));
+
+                    // Agregar boleta de venta electrónica
+                    document.add(new Paragraph("Boleta de Venta Electrónica", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16, Font.BOLD)));
+                    document.add(new Paragraph("Nombre del Archivo: detalle_compra_" + idcompras + ".pdf"));
+                    document.add(new Paragraph(" "));
+
+                    // Agregar contenido del documento
+                    document.add(new Paragraph("Detalles de Compra"));
+                    document.add(new Paragraph("ID Compra: C00" + idcompras));
+
+                    // Verificar si la lista de detalles no está vacía
+                    if (detalle != null && !detalle.isEmpty()) {
+                        document.add(new Paragraph(" "));
+                        document.add(new Paragraph("Detalles de la compra:"));
+
+                        // Crear tabla para los detalles de la compra
+                        PdfPTable table = new PdfPTable(5); // 4 columnas: Producto, Cantidad, Precio Unitario, Subtotal
+                        table.setWidthPercentage(100);
+
+                        // Agregar encabezados a la tabla
+                        table.addCell("Producto");
+                        table.addCell("Cantidad");
+                        table.addCell("Precio Unitario");
+                        table.addCell("IGV 18%");
+                        table.addCell("Subtotal");
+
+                        double totalPagar = 0.0;
+                        for (DetalleCompra dc : detalle) {
+                            table.addCell(dc.getProducto().getNombres());
+                            table.addCell(String.valueOf(dc.getCantidad()));
+                            double precioOriginal = dc.getPrecioCompra();
+                            double precioConDescuento = precioOriginal - (precioOriginal * 0.18);
+                            table.addCell(String.format("%.2f", precioConDescuento));
+                            double igv = dc.getPrecioCompra() * 0.18;
+                            table.addCell(String.format("%.2f", igv));
+
+                            double subtotal = (precioConDescuento + igv) * dc.getCantidad();
+                            table.addCell(String.format("%.2f", subtotal));
+                            totalPagar += subtotal;
+                        }
+
+                        document.add(table);
+                        document.add(new Paragraph(" "));
+                        document.add(new Paragraph("Total a pagar: " + String.format("%.2f", totalPagar)));
+                    } else {
+                        document.add(new Paragraph("No se encontraron detalles para esta compra."));
+                    }
+
+                } catch (DocumentException e) {
+                    e.printStackTrace();
+                } finally {
+                    // Asegurarse de cerrar el documento y OutputStream
+                    if (document.isOpen()) {
+                        document.close();
+                    }
+                    if (out != null) {
+                        out.close();
+                    }
+                }
+                break;
+            case "Factura":
+                Factura(request, response);
+
                 break;
 
             default:
@@ -307,24 +418,118 @@ public class Controlador extends HttpServlet {
         }
     }
 
-    private void VerDetalle(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession sesion = request.getSession();
-        usuario usuario = (usuario) sesion.getAttribute("vendedor");
+    private void Factura(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        totalPagar = 0.0;
+        int idcompras = Integer.parseInt(request.getParameter("idcompra"));
+        List<DetalleCompra> detalle = cdao.Detalle(idcompras);
 
-        if (usuario != null) {
-            totalPagar = 0.0;
-            int idcompras = Integer.parseInt(request.getParameter("idcompra"));
-            List<DetalleCompra> detalle = cdao.Detalle(idcompras);
-            request.setAttribute("myDetalle", detalle);
-            for (int i = 0; i < detalle.size(); i++) {
-                totalPagar += detalle.get(i).getPrecioCompra() * detalle.get(i).getCantidad();
+        // Configurar el documento PDF
+        Document document = new Document();
+        try {
+            // Configurar el OutputStream para enviar el PDF como respuesta
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=\"detalle_compra_" + idcompras + ".pdf\"");
+            OutputStream out = response.getOutputStream();
+
+            // Crear el escritor para el documento PDF
+            PdfWriter.getInstance(document, out);
+            document.open();
+
+            // Agregar encabezado
+            try {
+                String logoPath = getServletContext().getRealPath("../reportes/logohyp.jpg"); // Ajusta la ruta del logo
+                Image logo = Image.getInstance(logoPath);
+                logo.setAlignment(Element.ALIGN_CENTER);
+                logo.scaleToFit(200, 100); // Ajusta el tamaño del logo según tus necesidades
+                document.add(logo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            document.add(new Paragraph("HappyPet", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 20, Font.BOLD)));
+            document.add(new Paragraph("RUC: 12345678901")); // Ajusta el RUC
+            document.add(new Paragraph("Dirección: Mercado ASPROPA puesto 260, San Martín de Porres ")); // Ajusta la dirección
+            document.add(new Paragraph(" "));
+            // Agregar información adicional en encabezado
+            PdfPTable headerTable = new PdfPTable(2);
+            headerTable.setWidthPercentage(100);
+            headerTable.setWidths(new int[]{70, 30});
+            // Información de la factura
+            PdfPTable invoiceTable = new PdfPTable(1);
+            invoiceTable.addCell(new Phrase("RUC: 12345678901")); // Ajusta el RUC
+            PdfPCell facturaCell = new PdfPCell(new Phrase("Factura Electrónica", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Font.BOLD)));
+            facturaCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            facturaCell.setBorder(Rectangle.NO_BORDER);
+            invoiceTable.addCell(facturaCell);
+            PdfPCell invoiceCell = new PdfPCell(invoiceTable);
+            invoiceCell.setBorder(Rectangle.BOX);
+            headerTable.addCell(invoiceCell);
+
+            // Información del remitente y destinatario
+            PdfPTable infoTable = new PdfPTable(1);
+            infoTable.addCell(new Phrase("Remitente: HappyPet"));
+            infoTable.addCell(new Phrase("Fecha: " + new java.util.Date())); // Ajusta la fecha
+            infoTable.addCell(new Phrase("Tipo de Moneda: SOLES"));
+            PdfPCell infoCell = new PdfPCell(infoTable);
+            infoCell.setBorder(Rectangle.NO_BORDER);
+            headerTable.addCell(infoCell);
+
+            document.add(headerTable);
+            document.add(new Paragraph(" ")); // Añadir espacio después del encabezado
+
+            // Agregar contenido del documento
+            document.add(new Paragraph("Detalles de Compra"));
+            document.add(new Paragraph("ID Compra: C00" + idcompras));
+
+            // Verificar si la lista de detalles no está vacía
+            if (detalle != null && !detalle.isEmpty()) {
+                document.add(new Paragraph(" "));
+                document.add(new Paragraph("Detalles de la compra:"));
+
+                // Crear tabla para los detalles de la compra
+                PdfPTable table = new PdfPTable(5); // 5 columnas: Producto, Cantidad, Precio Unitario, IGV 18%, Subtotal
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(10f);
+                table.setSpacingAfter(10f);
+
+                // Agregar encabezados a la tabla
+                table.addCell("Producto");
+                table.addCell("Cantidad");
+                table.addCell("Precio Unitario");
+                table.addCell("IGV 18%");
+                table.addCell("Subtotal");
+
+                double totalPagar = 0.0;
+                for (DetalleCompra dc : detalle) {
+                    table.addCell(dc.getProducto().getNombres());
+                    table.addCell(String.valueOf(dc.getCantidad()));
+                    double precioOriginal = dc.getPrecioCompra();
+                    double precioConDescuento = precioOriginal / 1.18; // Precio sin IGV
+                    table.addCell(String.format("%.2f", precioConDescuento));
+                    double igv = precioOriginal - precioConDescuento; // IGV calculado
+                    table.addCell(String.format("%.2f", igv));
+
+                    double subtotal = precioOriginal * dc.getCantidad(); // Precio con IGV
+                    table.addCell(String.format("%.2f", subtotal));
+                    totalPagar += subtotal;
+                }
+
+                document.add(table);
+                document.add(new Paragraph(" "));
+                document.add(new Paragraph("Total a pagar: " + String.format("%.2f", totalPagar)));
+            } else {
+                document.add(new Paragraph("No se encontraron detalles para esta compra."));
             }
 
-            request.setAttribute("montoPagar", totalPagar);
-
-            // Redireccionar a la página de detalles de compra después de obtener los detalles
-            request.getRequestDispatcher("vistas/DetalleCompra.jsp").forward(request, response);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } finally {
+            // Asegurarse de cerrar el documento y OutputStream
+            if (document.isOpen()) {
+                document.close();
+            }
+            if (out != null) {
+                out.close();
+            }
         }
     }
 

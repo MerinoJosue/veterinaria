@@ -59,7 +59,7 @@ public class ComprasDAO {
             int resultado = ps.executeUpdate();
             return resultado;
         } catch (Exception e) {
-        } 
+        }
         return 0;
     }
 
@@ -103,7 +103,10 @@ public class ComprasDAO {
 
     public List Detalle(int id) {
         List lista = new ArrayList();
-        String sql = "SELECT * FROM detalle_compras WHERE idCompras = " + id;
+        String sql = "SELECT DC.idDetalle, P.Foto, P.Nombre, DC.idCompras, DC.Cantidad, DC.PrecioCompra \n"
+                + "                 FROM detalle_compras DC\n"
+                + "                INNER JOIN productos P ON P.Id_Producto = DC.Id_Producto \n"
+                + "				WHERE DC.idCompras =" + id;
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
