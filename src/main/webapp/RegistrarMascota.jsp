@@ -73,7 +73,7 @@
                             </span>
                         </div>
                     </form>
-                     <ul class="sidebar-menu" data-widget="tree">
+                    <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">INICIO</li>
                         <!-- Optionally, you can add icons to the links -->
                         <li class="active"><a href="Controlador?accion=home"><i class="fa fa-cart-arrow-down"></i> <span>Catalogo</span></a></li>
@@ -104,25 +104,26 @@
                                 </div>
                                 <div class="card-body">
                                     <form action="srvMascota" method="POST">
-                                        <input type="hidden" name="accion" value="agregar" />
+                                        <input type="hidden" name="menu" value="mascota" />
+                                        <input type="hidden" name="id" value="${mascota.getIDMASCOTA()}" />
                                         <div class="form-group">
                                             <label>Nombre</label>
-                                            <input type="text" name="nombre" class="form-control" required>
+                                            <input type="text" name="nombre" value="${mascota.getNombre()}" class="form-control" required>
                                         </div> 
                                         <div class="form-group">
                                             <label>Raza</label>
-                                            <input type="text" name="raza" class="form-control" required>
+                                            <input type="text" name="raza" value="${mascota.getRaza()}" class="form-control" required>
                                         </div> 
                                         <div class="form-group">
                                             <label>Sexo</label>
-                                            <input type="text" name="sexo" class="form-control" required>
+                                            <input type="text" name="sexo"  value="${mascota.getSexo()}" class="form-control" required>
                                         </div> 
                                         <div class="form-group">
                                             <label>Especie</label>
-                                            <input type="text" name="especie" class="form-control" required>
+                                            <input type="text" name="especie" value="${mascota.getEspecie()}" class="form-control" required>
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Registrar</button>
+                                            <input type="submit" name="accion" value="Actualizar" class="btn btn-success">
                                         </div>
                                     </form>
                                 </div>
@@ -142,6 +143,7 @@
                                         <table id="tablaMascotas" class="table">
                                             <thead>
                                                 <tr>
+                                                    <th>Id</th>
                                                     <th>Nombre</th>
                                                     <th>Raza</th>
                                                     <th>Sexo</th>
@@ -152,14 +154,15 @@
                                             <tbody>
                                                 <c:forEach var="mascota" items="${mascotas}">
                                                     <tr>
-                                                        <td>${mascota.nombre}</td>
-                                                        <td>${mascota.raza}</td>
-                                                        <td>${mascota.sexo}</td>
-                                                        <td>${mascota.especie}</td>
+                                                        <td>${mascota.getIDMASCOTA()}</td>
+                                                        <td>${mascota.getNombre()}</td>
+                                                        <td>${mascota.getRaza()}</td>
+                                                        <td>${mascota.getSexo()}</td>
+                                                        <td>${mascota.getEspecie()}</td>
                                                         <td>
-                                                        <a class="btn btn-warning" href="srvMascota?accion=editarMascota&id=${mascota.getIDUSUARIO()}"><i class="fa fa-pencil"></i></a>
-                                                        <a class="btn btn-danger" href="srvMascota?accion=deleteMascota&id=${mascota.getIDUSUARIO()}"><i class="fa fa-trash"></i></a>
-                                                    </td>
+                                                            <a class="btn btn-warning" href="srvMascota?accion=Editar&id=${mascota.getIDMASCOTA()}"><i class="fa fa-pencil"></i></a>
+                                                            <a class="btn btn-danger" href="srvMascota?accion=Delete&id=${mascota.getIDMASCOTA()}"><i class="fa fa-trash"></i></a>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>
@@ -173,7 +176,43 @@
                 </section>
             </div>
 
-             <footer class="main-footer">
+            <!-- Modal Agregar Mascota -->
+            <div class="modal fade" id="addMascotaModal" tabindex="-1" aria-labelledby="addMascotaModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addMascotaModalLabel">Agregar Mascota</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="srvMascota" method="POST">
+                                <input type="hidden" name="menu" value="Mascota" />
+                                <div class="form-group">
+                                    <label>Nombre</label>
+                                    <input type="text" name="nombre" value="${Mascota.getNombre()}" class="form-control" required>
+                                </div> 
+                                <div class="form-group">
+                                    <label>Raza</label>
+                                    <input type="text" name="raza" value="${Mascota.getRaza()}" class="form-control" required>
+                                </div> 
+                                <div class="form-group">
+                                    <label>Sexo</label>
+                                    <input type="text" name="sexo"  value="${Mascota.getSexo()}" class="form-control" required>
+                                </div> 
+                                <div class="form-group">
+                                    <label>Especie</label>
+                                    <input type="text" name="especie" value="${Mascota.getEspecie()}" class="form-control" required>
+                                </div>
+                                <div class="text-center">
+                                    <input type="submit" name="accion" value="agregar" class="btn btn-info">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+
+            <footer class="main-footer">
                 <!-- To the right -->
                 <div class="pull-right hidden-xs">
                     PetFrendly
@@ -189,9 +228,9 @@
         <script src="dist/js/adminlte.min.js"></script>
 
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#tablaMascotas').DataTable();
-                $('#searchInput').on('keyup', function() {
+                $('#searchInput').on('keyup', function () {
                     $('#tablaMascotas').DataTable().search($(this).val()).draw();
                 });
             });
